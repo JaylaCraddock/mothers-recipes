@@ -1,0 +1,295 @@
+/* Index section */
+
+h1{
+   font-size: 400;
+  font-weight: normal;
+  font-family: "Abril FatFace", serif;
+  margin-left: 15px;
+}
+
+.popularText,h2,h3 {
+font-optical-sizing: auto;
+ font-size: 400;
+  font-weight: normal;
+font-family: "Baskervville", serif;
+}
+
+#mealTitle {
+  text-align: center;
+ font-size: 400;
+  font-weight: normal;
+  font-family: "Baskervville", serif;
+}
+p, a, #mealIngredients, h5 {
+font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400px;
+  font-style: normal;
+}
+
+p {
+  margin-left: 15px;
+}
+
+.logo {
+  width: 90px;
+  height: auto;
+  display: block;
+}
+
+
+body {
+  background-color: #F1E8B8;
+}
+
+.navbar {
+  margin-bottom: 50px;
+}
+
+nav li:hover {
+  background-color: #e58f65;
+  color: white;
+  border-radius: 25px;
+  padding: 15px;
+
+}
+
+nav .navbar-brand:hover {
+   background-color: #e58f65;
+  border-radius: 25px;
+  padding: 15px;
+}
+
+
+/* Slideshow section */
+
+.slideshow_images {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Slideshow container */
+.slideshow_container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+  
+}
+
+/* Hide the images by default */
+.food_slideshow {
+  display: none;
+  
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color that is a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  cursor: pointer;
+}
+
+
+/* The dots/bullets/indicators */
+.dot_style {
+  text-align: center;
+}
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.dot:hover {
+  background-color: #717171;
+}
+
+#slideshow_space {
+  margin-bottom: 100px;
+}
+
+
+
+/* Popular dishes section */
+.card-group {
+
+  gap: 20px;
+  padding: 30px;
+
+
+}
+
+/* Meal section */
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 30px;
+
+}
+.meal-card{
+  background-color: tan;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.meal-card:hover, .card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.meal-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.meal-card h3 {
+  margin: 15px 0;
+  font-size: 18px;
+}
+
+.recipe-details {
+  padding: 30px;
+  color: #333;
+}
+
+.recipe-details img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.recipe-details ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+
+
+/* Results section */
+.card{
+  width: 18rem;
+  cursor: pointer;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+#recipesContainer {
+   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 50px;
+  padding: 30px;
+ 
+}
+
+/* About me section */
+#imageContainer {
+  float: right;
+
+display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+}
+
+#img1  {
+  max-width: 300px;
+  height: auto;
+  display: block;
+
+}
+
+
+footer {
+   text-align: center;
+   
+
+}
+
+#creditsContainer {
+  text-align: center;
+  margin-top: 200px;
+  background-color: tan;
+  
+  
+}
+
+#creditsContainer > ol > li {
+  list-style-type: none;
+ 
+
+}
+
+#creditsContainer > ol > li > a {
+  text-decoration: none;
+  color: black;
+}
+
+#creditsContainer > ol > li > a:hover {
+color: navy;
+   text-decoration: underline;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+
+/* Meal details */
+#mealInstructions {
+  background-color: white;
+  padding: 20px;
+  word-spacing: 2px;
+ 
+}
+
+#miniContainer{
+  padding-top: 100px;
+  padding-bottom: 100px;
+  
+}
+
+#mealTitle {
+  padding-top: 50px;
+}
+

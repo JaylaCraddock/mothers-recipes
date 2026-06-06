@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Arima:wght@100..700&family=Baskervville:ital,wght@0,400..700;1,400..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="../../images/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="../../images/favicon.svg">
+  <link rel="shortcut icon" href="../../images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+  <link rel="manifest" href="../../images/site.webmanifest">
+  <link rel="stylesheet" href="../../styles.css">
+  <title>Details</title>
+</head>
+
+<body class="p-4 ">
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <img src="../../images/mothers_recipe_logo.png" alt="Logo of Mother's Recipe." class="logo">
+      <a class="navbar-brand" href="../../index.html">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../../meals/meals.html">Meals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../../about/about.html">About Us</a>
+          </li>
+        </ul>
+        <form id="searchContainer" class="d-flex" role="search">
+          <input class="form-control me-2" id="ingredient" type="search" placeholder="Search ingredient" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container">
+    <h1 id="mealTitle"></h1>
+    <img id="mealImage" class="img-fluid d-block mx-auto rounded shadow mb-4" alt="Meal Image">
+
+    <h3 class="mt-5">Ingredients</h3>
+    <ul id="mealIngredients" class="list-group list-group-flush mb-4"></ul>
+
+    <div id="miniContainer">
+      <h3>Instructions</h3>
+      <p id="mealInstructions" class="mt-3"></p>
+    </div>
+    <div id="mealVideo" class="text-center mt-5"></div>
+
+  </div>
+
+  <footer>
+    <p> 2025 Mother's Recipes. All Rights Reserved. </p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    //Search section
+    document.getElementById("searchContainer").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const input = document.querySelector("input[type='search']");
+      const ingredient = input.value.trim().toLowerCase();
+
+      if (!ingredient) {
+        alert("Please enter an ingredient.");
+        return;
+      }
+
+      localStorage.setItem("ingredient", ingredient);
+
+      window.location.href = "../../results/results.html";
+    });
+    //Meal details that includes name, ingredients, steps and youtube video
+    //if available 
+    async function loadMealDetails() {
+      const mealID = localStorage.getItem("mealID");
+      const title = document.getElementById("mealTitle");
+      const image = document.getElementById("mealImage");
+      const instructions = document.getElementById("mealInstructions");
+      const ingredientsList = document.getElementById("mealIngredients");
+      const video = document.getElementById("mealVideo");
+
+      if (!mealID) {
+        title.textContent = "No recipe selected. Please go back.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`);
+        const data = await response.json();
+        const meal = data.meals[0];
+
+        // Title, image, and instructions
+        title.textContent = meal.strMeal;
+        image.src = meal.strMealThumb;
+        instructions.textContent = meal.strInstructions;
+
+        //Build ingredient and measurement list
+        for (let i = 1; i <= 20; i++) {
+          const ingredient = meal[`strIngredient${i}`];
+          const measure = meal[`strMeasure${i}`];
+
+          // Only add if there’s a valid ingredient
+          if (ingredient && ingredient.trim() !== "") {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.textContent = `${measure ? measure : ""} ${ingredient}`;
+            ingredientsList.appendChild(li);
+          }
+        }
+
+        //Show YouTube video if available
+        if (meal.strYoutube) {
+          const videoId = meal.strYoutube.split("v=")[1];
+          video.innerHTML = `
+            <iframe width="560" height="315" 
+              src="https://www.youtube.com/embed/${videoId}" 
+              frameborder="0" allowfullscreen class="shadow rounded">
+            </iframe>`;
+        }
+
+      } catch (error) {
+        title.textContent = "Failed to load recipe details. Please try again.";
+        console.error(error);
+      }
+    }
+
+    loadMealDetails();
+  </script>
+</body>
+
+</html>
+
