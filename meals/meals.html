@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Arima:wght@100..700&family=Baskervville:ital,wght@0,400..700;1,400..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="../images/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+  <link rel="shortcut icon" href="../images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../images/site.webmanifest">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Meals</title>
+</head>
+
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <img src="../images/mothers_recipe_logo.png" alt="Logo of Mother's Recipe." class="logo">
+      <a class="navbar-brand" href="../index.html">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="meals.html">Meals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../about/about.html">About Us</a>
+          </li>
+        </ul>
+        <form id="searchContainer" class="d-flex" role="search">
+          <input class="form-control me-2" id="ingredient" type="search" placeholder="Search ingredient" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+
+  <header>
+    <h1>Meal Selection</h1>
+    <p>Changes every month! Click on any meal to view its recipe and ingredients.</p>
+  </header>
+
+  <main id="mealsContainer" class="meal-grid"></main>
+
+  <footer>
+    <p> 2025 Mother's Recipes. All Rights Reserved. </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    //Search section
+    document.getElementById("searchContainer").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const input = document.querySelector("input[type='search']");
+      const ingredient = input.value.trim().toLowerCase();
+
+      if (!ingredient) {
+        alert("Please enter an ingredient.");
+        return;
+      }
+
+      localStorage.setItem("ingredient", ingredient);
+
+      window.location.href = "../results/results.html";
+    });
+
+    //Section for meals randomizes every month
+    const mealsContainer = document.getElementById("mealsContainer");
+
+    if (mealsContainer) {
+      async function getRandomMeals() {
+        mealsContainer.innerHTML = "<p>Loading recipes...</p>";
+
+        const mealMap = new Map();
+
+        while (mealMap.size < 20) {
+          try {
+            const response = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+            const data = await response.json();
+            const meal = data.meals[0];
+
+            if (!mealMap.has(meal.idMeal)) {
+              mealMap.set(meal.idMeal, meal);
+            }
+          } catch (error) {
+            console.error("Failed to fetch a random meal, sorry.", error);
+          }
+        }
+
+        const mealsArray = Array.from(mealMap.values());
+
+        //Save meals and current month
+        localStorage.setItem("monthlyMeals", JSON.stringify(mealsArray));
+        localStorage.setItem("mealsMonth", new Date().getMonth());
+
+        displayMeals(mealsArray);
+      }
+
+      function displayMeals(meals) {
+        mealsContainer.innerHTML = meals
+          .map(
+            (meal) => `
+        <div class="meal-card" data-id="${meal.idMeal}">
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+          <h5>${meal.strMeal}</h5>
+        </div>
+        `
+          )
+          .join("");
+
+        mealsContainer.addEventListener("click", (e) => {
+          const mealCard = e.target.closest(".meal-card");
+          if (mealCard) {
+            const mealID = mealCard.dataset.id;
+            localStorage.setItem("mealID", mealID);
+            window.location.href = "../results/details/details.html";
+          }
+        });
+      }
+
+      // Monthly section
+      function loadMonthlyMeals() {
+        const savedMeals = localStorage.getItem("monthlyMeals");
+        const savedMonth = localStorage.getItem("mealsMonth");
+        const currentMonth = new Date().getMonth();
+
+        if (savedMeals && savedMonth && Number(savedMonth) === currentMonth) {
+          // Same month then reuse meals
+          displayMeals(JSON.parse(savedMeals));
+        } else {
+          // New month then generate new meals
+          getRandomMeals();
+        }
+      }
+
+      loadMonthlyMeals();
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Arima:wght@100..700&family=Baskervville:ital,wght@0,400..700;1,400..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="../images/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+  <link rel="shortcut icon" href="../images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../images/site.webmanifest">
+  <link rel="stylesheet" href="../styles.css">
+  <title>About Us</title>
+</head>
+
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <img src="../images/mothers_recipe_logo.png" alt="Logo of Mother's Recipe." class="logo">
+      <a class="navbar-brand" href="../index.html">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../meals/meals.html">Meals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../about/about.html">About Us</a>
+          </li>
+        </ul>
+        <form id="searchContainer" class="d-flex" role="search">
+          <input class="form-control me-2" id="ingredient" type="search" placeholder="Search ingredient" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div id="imageContainer"> <img id="img1" src="../images/mom_and_me.png"
+      alt="Image of my mother to the left and me to the right, smiling at the camera."></div>
+  <article>
+    <h1>Who we are</h1>
+    <p>Hello! My name is Jayla Craddock and I am the creator of Mother's Recipes. I made this website for my semester
+      project in my Intermediate Web Programming Class of Fall of 2025. Using an API, you're able to find recipes from
+      entering ingredients into the search bar. For example, entering an ingredient that you want to make that involves
+      limes. Once entered into the search bar it will take you to another page called results that shows the results of
+      recipes that uses limes. With the case of using limes, you see a recipe that you may want to make such as a Key
+      Lime Pie. When you click on the image of the Key Lime Pie it will take you to another page called Details. That
+      provides the ingredients, steps, images of the Key Lime Pie and name. In some cases if available there will be a
+      youtube video provided at the bottom for visual learners. </p>
+  </article>
+
+  <p>
+    In contrast, there is a case if the user doesn't know what to cook. Then there is a section in the website that is
+    called Meals where the user clicks on it and is taken to a page that provides a random selection of 20 meals. That
+    are rotated on a monthly basis. From there, the user can browse through the selection until they find something that
+    piques their interest. For instance, a customer doesn't know what to cook so they look at the meal selection and
+    find that they want to make pancakes from the monthly selection. It is the same process as before with
+    the search function. With the user clicking on the image of the meal to be taken to the same page where it shows all
+    the necessary details. This is one of my favorite projects to make and it was a delight to challenge myself to use
+    javascript for most of the part as I am still new to using it. Overall, I have learned a lot from javascript and how
+    it functions and I plan on using it in the future to make my websites more interactive.</p>
+
+  <div id="creditsContainer">
+    <h2>Credits (Links to website)</h2>
+    <ol>
+      <li><a href="https://www.themealdb.com/api.php">API: MealDB</a></li>
+      <li><a href="https://getbootstrap.com/">Bootstrap</a></li>
+      <li><a href="https://developers.google.com/youtube/v3">Youtube API</a></li>
+      <li><a href="../index.html">Slideshow photos taken by me.</a></li>
+      <li><a href="">Mom and me photo taken by me.</a></li>
+    </ol>
+  </div>
+
+
+  <footer class="footerContainer">
+    <p> 2025 Mother's Recipes. All Rights Reserved. </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    //Search section
+    document.getElementById("searchContainer").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const input = document.querySelector("input[type='search']");
+      const ingredient = input.value.trim().toLowerCase();
+
+      if (!ingredient) {
+        alert("Please enter an ingredient.");
+        return;
+      }
+
+      localStorage.setItem("ingredient", ingredient);
+
+      window.location.href = "../results/results.html";
+    });
+
+  </script>
+
+</body>
+
+</html>
+
